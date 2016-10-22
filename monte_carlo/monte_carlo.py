@@ -6,6 +6,7 @@ import unittest
 import sys
 import math
 import argparse
+import unittest
 import matplotlib.pyplot as plt
 input_file='input_file.txt'#default input file
 parser=argparse.ArgumentParser()#parses command line inputs

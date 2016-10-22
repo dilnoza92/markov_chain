@@ -47,7 +47,7 @@ def  generate_adjacency_matrix(coor):
     '''
     y=[]#initializing an array the keeps the vertex number and its cartesian coordinates
     k=len(coor)# the letgth of the coordinates array
-    adj_matrix=np.zeros((k,k))#adjacency matrix initialized to zeros
+    adj_matrix=np.ones((k,k))#adjacency matrix initialized to ones
     for i in range(len(coor)):#iterate through cartesian vertices
         x=[0,0,0]#initialize an array that will keep vertex index, x coordinate and y coordinate
         x[0]=i#index
@@ -91,18 +91,17 @@ def graph_prob(adj_matrix1):
             if(adj_matrix1[i][k]!=0):
                 edge=[i,k]
                 edge1.append(edge)
-                weight1=((coor[i][0]-coor[k][0])**2+(coor[i][1]-coor[k][1])**2)**0.5
+                weight1=((coordinates[i][0]-coordinates[k][0])**2+(coordinates[i][1]-coordinates[k][1])**2)**0.5
                 G1.add_edge(i,k, weight=weight1)
     weight_sums=0
     edges=len(G1.edges())
     nodes=len(coordinates)
     for i in range(edges):
-        weight_sums=weight_sums+((coor[edge1[i][0]][0]-coor[edge1[i][1]][0])**2+(coor[edge1[i][0]][1]-coor[edge1[i][1]][1])**2)**0.5
+        weight_sums=weight_sums+((coordinates[edge1[i][0]][0]-coordinates[edge1[i][1]][0])**2+(coordinates[edge1[i][0]][1]-coordinates[edge1[i][1]][1])**2)**0.5
     while (i!=0 and i<nodes):
-        weight_sums=weight_sums
-        paths=nx.shortest_path(G1, 0,i)
-        for j in paths:
-            
-    return weighted_sums
+        path_length=nx.shortest_path_length(G1, 0,i)
+        print path_length
+  #      weight_sums=weight_sums+path_length
+    return weight_sums
 print graph_prob(adjacency_matrix)
     

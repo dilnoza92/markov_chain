@@ -12,7 +12,6 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'Click>=6.0',
     # TODO: put package requirements here
-    'coverage==4.1'
 ]
 
 test_requirements = [
@@ -26,7 +25,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Dilnoza Amirkulova",
     author_email='dilnoza92@gmail.com',
-    url='https://github.com/dilnoza92/monte_carlo',
+    url='https://github.com/dilnoza92/monte_carlo_mc',
     packages=[
         'monte_carlo',
     ],

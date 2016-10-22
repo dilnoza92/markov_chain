@@ -23,7 +23,7 @@ from monte_carlo import cli
 coordinates=[[5,6],[1,3],[4,5],[6,7],[8,9]]
    
 
-class TestMonte_carlo(unittest.TestCase):
+class test_monte_carlo(unittest.TestCase):
 
     def test_input_reader(self):
         parser1=argparse.ArgumentParser()

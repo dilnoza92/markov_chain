@@ -25,7 +25,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Dilnoza Amirkulova",
     author_email='dilnoza92@gmail.com',
-    url='https://github.com/dilnoza92/monte_carlo_mc',
+    url='https://github.com/dilnoza92/monte_carlo',
     packages=[
         'monte_carlo',
     ],

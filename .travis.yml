@@ -2,7 +2,7 @@
 deploy:
   true:
     condition: $TOXENV == py27
-    repo: dilnoza92/monte_carlo_mc
+    repo: dilnoza92/monte_carlo
     tags: true
   distributions: sdist bdist_wheel
   password:

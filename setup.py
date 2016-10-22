@@ -12,6 +12,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'Click>=6.0',
     # TODO: put package requirements here
+    'coverage==4.1'
 ]
 
 test_requirements = [

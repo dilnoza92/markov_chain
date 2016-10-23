@@ -52,7 +52,7 @@ How to run the tests:
 Before proposed distribution
 ----
 The image before changing the adjacency matrix is named path.png
-.. image:: https://github.com/dilnoza92/monte_carlo/blob/master/path.png
+.. image:: https://github.com/dilnoza92/monte_carlo/path.png
 
 
 
@@ -60,13 +60,13 @@ The Outputs
 -----
 The output proposed graph will  be named propsed_graph.png and saved in main directory where the setup file is saved.
 
-.. image:: https://github.com/dilnoza92/monte_carlo/blob/master/propsed_path.png
+.. image:: https://github.com/dilnoza92/monte_carlo/proposed_path.png
   
 The Coverage 
 -------
 Important! I could not make the travis work, it did not recognize my tests, hence I took a screenshot of my results from local computer 
 
-.. image:: https://github.com/dilnoza92/monte_carlo/blob/master/screen_shot.png 
+.. image:: https://github.com/dilnoza92/monte_carlo/screen_shot.png 
 
 
 

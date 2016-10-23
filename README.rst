@@ -26,25 +26,18 @@ It is a simulation package. it takes an input as a file which should contain cor
 Example input file :
 
 (42, 46) 
+
 (41, 32) 
+
 (9, 41) 
+
 (7, 28) 
+
 (30, 40) 
+
 (37, 14) 
+
 (32, 10) 
-(28, 34) 
-(34, 3) 
-(18, 43) 
-(49, 12) 
-(16, 1) 
-(10, 50) 
-(13, 36) 
-(6, 33) 
-(20, 8) 
-(21, 30) 
-(4, 40) 
-(0, 49) 
-(49, 25)
 
 How to run the code with an input file
 -----
@@ -55,6 +48,29 @@ How to run the tests:
 -----
 *  coverage run setup.py test
 *  coverage report -m
+
+Before proposed distribution
+----
+The image before changing the adjacency matrix is named path.png
+.. image:: path.png
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %
+   :alt: alternate text
+   :align: right
+
+
+The Outputs
+-----
+The output proposed graph will  be named propsed_graph.png and saved in main directory where the setup file is saved.
+.. image:: proposed_graph.png
+   :height: 100px
+   :width: 200 px
+   :scale: 50 %
+   :alt: alternate text
+   :align: right
+
+
 
 
 

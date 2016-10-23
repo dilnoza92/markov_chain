@@ -7,6 +7,7 @@ import sys
 import math
 import argparse
 import unittest
+from random import *
 import matplotlib.pyplot as plt
 input_file='input_file.txt'#default input file
 parser=argparse.ArgumentParser()#parses command line inputs
@@ -74,23 +75,29 @@ def strongly_con_graph_generator(coor):
             G.add_edge(i,k, weight=w)#adding edges between all vertices
     min_span_tree=nx.minimum_spanning_tree(G)#finding minimum spanning tree
     nx.draw(G)#drawing the graph
-    nx.draw(min_span_tree)#drawing the minimum spanning tree
     image="path.png"#name of the image
     plt.savefig(image)#saving the image
     return G, image
 graph, picture=strongly_con_graph_generator(coordinates)#saves an initial graph and it image
-def markov_chain_monte_carlo(graph):
-    pass
+
 def graph_prob(adj_matrix1):
-    edge1=[]
-    G1=nx.Graph()
-    for i in range(len(adj_matrix1)):
-        G1.add_node(i)
+    '''takes an adjacency matrix and returns the sum of its weight
+    Arguments: 
+        adj_matrix1=adjacency matrix
+    Returns:
+        weight_sum= sum of edges 
+        G=weighted undirected graph
+    '''
+
+    edge1=[]#will contain edge
+    G1=nx.Graph()#generates graph
+    for i in range(len(adj_matrix1)):#for number of nodes in adjacency
+        G1.add_node(i)#adds nodes
         for k in range(len(adj_matrix1)):
             if (i!=k):
-                G1.add_node(k)
+                G1.add_node(k)#adds nodes
             if(adj_matrix1[i][k]!=0):
-                edge=[i,k]
+                edge=[i,k]#adds an edge
                 edge1.append(edge)
                 weight1=((coordinates[i][0]-coordinates[k][0])**2+(coordinates[i][1]-coordinates[k][1])**2)**0.5
                 G1.add_edge(i,k, weight=weight1)
@@ -101,8 +108,46 @@ def graph_prob(adj_matrix1):
         weight_sums=weight_sums+((coordinates[edge1[i][0]][0]-coordinates[edge1[i][1]][0])**2+(coordinates[edge1[i][0]][1]-coordinates[edge1[i][1]][1])**2)**0.5
     while (i!=0 and i<nodes):
         path_length=nx.shortest_path_length(G1, 0,i)
-        print path_length
-  #      weight_sums=weight_sums+path_length
-    return weight_sums
-print graph_prob(adjacency_matrix)
-    
+    return weight_sums, G1
+
+def proposed_graph(adj_matrix1):
+    ''' takes an adjacency matrix and generates a new adjacency matrix with a porposal distribution
+    Arguments:
+         adj_matrix1= an adjacency matrix
+    Returns:
+         adj_matrix1= an new mutated adjacency matrix
+
+
+    '''
+    extra,G2=graph_prob(adj_matrix1)#graph and its coordinates
+    if (nx.is_connected(G2)==False):#raise error if the corresponding graph is not connected
+        raise Valueerror
+    node1=randint(0, len(adj_matrix1[0])-1)#random node 1
+    node2=randint(0, len(adj_matrix1[0])-1)#random node 2
+    G2_min_span_edges=nx.minimum_spanning_edges(G2)#edge of minimum spanning tree
+    bridges=len(list(G2_min_span_edges))#number of edges in the spanning tree
+    element=(node1, node2)#tuple of two nodes for an edge
+    M=len(adj_matrix1[0])#number of vertices
+    q_i_j=2.0/(M*(M-1.0))#i state probability
+    q_j_i=2.0/(M*(M-1.0)-bridges)#j state probability
+    ratio=float(q_j_i)/float(q_i_j)#calculates the ratio
+    if (node1!=node2 and adj_matrix1[node1][node2]==0):# makes sure the two nodes are not identical and that there is no edge between them
+        adj_matrix1[node1][node1]=1#add an edge
+    elif(node1!=node2 and adj_matrix1[node1][node2]!=0):#
+        if element in G2_min_span_edges:
+            adj_matrix1[node1][node2]=1#if the edge is in MST don't remove
+        else:
+            adj_matrix1[node1][node2]=0#if it is not remove the edge
+            extra1,G3=graph_prob(adj_matrix1)
+            if (nx.is_connected(G3)==False):#makes sure that the graph is connected
+                adj_matrix1[node1][node2]=1
+    return adj_matrix1
+i=0
+##below i generated new graph for 100 times
+while(i<100):
+    adjacency_matrix=proposed_graph(adjacency_matrix)
+    i=i+1
+a,G_proposed=graph_prob(adjacency_matrix)
+nx.draw(G_proposed)#drawing the graph                           
+image1="proposed_graph.png"#name of the image                           
+plt.savefig(image1)#saving the image   

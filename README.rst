@@ -68,7 +68,7 @@ The Coverage
 -------
 Important! I could not make the travis work, it did not recognize my tests, hence I took a screenshot of my results from local computer 
 
-.. image:: https://github.com/dilnoza92/monte_carlo/screen_shot.png 
+.. image:: https://github.com/dilnoza92/monte_carlo/blob/master/screen_shot.png 
 
 
 

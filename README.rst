@@ -53,22 +53,14 @@ Before proposed distribution
 ----
 The image before changing the adjacency matrix is named path.png
 .. image:: path.png
-   :height: 100px
-   :width: 200 px
-   :scale: 50 %
-   :alt: alternate text
-   :align: right
+
 
 
 The Outputs
 -----
 The output proposed graph will  be named propsed_graph.png and saved in main directory where the setup file is saved.
 .. image:: proposed_graph.png
-   :height: 100px
-   :width: 200 px
-   :scale: 50 %
-   :alt: alternate text
-   :align: right
+  
 
 
 

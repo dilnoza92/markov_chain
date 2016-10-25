@@ -23,6 +23,7 @@ python: 2.7
 before_install:
 - pip install coverage
 - pip install networkx
+- pip install matplotlib
 script:
 - coverage run --source=monte_carlo/monte_carlo.py setup.py test
 - coverage report -m 

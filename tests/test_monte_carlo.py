@@ -16,10 +16,10 @@ import numpy as np
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from monte_carlo.monte_carlo import monte_carlo
-from monte_carlo.monte_carlo import cli
+from monte_carlo import monte_carlo
+from monte_carlo import cli
 import networkx as nx
-#from monte_carlo import *
+#from monte_carlo.monte_carlo import *
 
 coordinates=[[5,6],[1,3],[4,5],[6,7],[8,9]]
    

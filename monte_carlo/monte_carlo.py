@@ -8,7 +8,9 @@ import math
 import argparse
 import unittest
 from random import *
+
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 input_file='input_file.txt'#default input file
 parser=argparse.ArgumentParser()#parses command line inputs
 parser.add_argument('--input_file', nargs="?") #adds a flag for input file

@@ -17,6 +17,8 @@ parser=argparse.ArgumentParser()#parses command line inputs
 parser.add_argument('--input_file', nargs="?") #adds a flag for input file
 parser.add_argument('monte_carlo/monte_carlo.py', nargs='?')#makes sure that parser doesn't give error when it reads the source code
 arguments=parser.parse_args()#arguments given in the command line
+r1=1
+temp=1
 def input_reader1(args):
     '''takes the command line arguments and gives array of vertices
     Variables:
@@ -41,7 +43,10 @@ def input_reader1(args):
     if(len(vertices)==0):
         raise ValueError
     return vertices#return an array of vertices, each vertex is an array of x and y coordinates
+global coordinates;
 coordinates=input_reader1(arguments)#saves the matrix of x and y coord
+global number_vertices;
+number_vertices=len(coordinates)
 def  generate_adjacency_matrix(coor):
     ''' takes an array of coordinates and generates nxn adjacency matrix
     Arguments:
@@ -83,7 +88,7 @@ def strongly_con_graph_generator(coor):
     return G, image
 graph, picture=strongly_con_graph_generator(coordinates)#saves an initial graph and it image
 
-def graph_prob(adj_matrix1):
+def graph_theta(adj_matrix1,r):
     '''takes an adjacency matrix and returns the sum of its weight
     Arguments: 
         adj_matrix1=adjacency matrix
@@ -109,9 +114,16 @@ def graph_prob(adj_matrix1):
     nodes=len(coordinates)
     for i in range(edges):
         weight_sums=weight_sums+((coordinates[edge1[i][0]][0]-coordinates[edge1[i][1]][0])**2+(coordinates[edge1[i][0]][1]-coordinates[edge1[i][1]][1])**2)**0.5
+    path_length=0
+    i=1
     while (i!=0 and i<nodes):
-        path_length=nx.shortest_path_length(G1, 0,i)
-    return weight_sums, G1
+        path_length=path_length+nx.shortest_path_length(G1, 0,i)
+        i=i+1
+    theta=r*weight_sums+path_length
+    return theta, G1
+
+
+
 
 def proposed_graph(adj_matrix1):
     ''' takes an adjacency matrix and generates a new adjacency matrix with a porposal distribution
@@ -122,9 +134,7 @@ def proposed_graph(adj_matrix1):
 
 
     '''
-    extra,G2=graph_prob(adj_matrix1)#graph and its coordinates
-    if (nx.is_connected(G2)==False):#raise error if the corresponding graph is not connected
-        raise Valueerror
+    extra,G2=graph_theta(adj_matrix1,r1)#graph and its coordinates
     node1=randint(0, len(adj_matrix1[0])-1)#random node 1
     node2=randint(0, len(adj_matrix1[0])-1)#random node 2
     G2_min_span_edges=nx.minimum_spanning_edges(G2)#edge of minimum spanning tree
@@ -141,16 +151,58 @@ def proposed_graph(adj_matrix1):
             adj_matrix1[node1][node2]=1#if the edge is in MST don't remove
         else:
             adj_matrix1[node1][node2]=0#if it is not remove the edge
-            extra1,G3=graph_prob(adj_matrix1)
+            extra1,G3=graph_theta(adj_matrix1,r1)
             if (nx.is_connected(G3)==False):#makes sure that the graph is connected
                 adj_matrix1[node1][node2]=1
     return adj_matrix1
-i=0
+
+def relativity_ratio(adj_matrix_1,adj_matrix_2):
+    ''' gives a relative ratio of two graphs
+    Argumets:
+       adj_matrix_1=adjacency matrix for graph 1
+       adj_matrix_2=adjacency matrix for graph 2
+    Returns:
+       relative probability value of two graphs
+    '''
+    theta_1,graph_1=graph_theta(adj_matrix_1,r1)
+    theta_2,graph_2=graph_theta(adj_matrix_2,r1)
+    return math.exp((theta_1-theta_2)/temp)
 ##below i generated new graph for 100 times
-while(i<100):
-    adjacency_matrix=proposed_graph(adjacency_matrix)
-    i=i+1
-a,G_proposed=graph_prob(adjacency_matrix)
-nx.draw(G_proposed)#drawing the graph                           
-image1="proposed_graph.png"#name of the image                           
-plt.savefig(image1)#saving the image   
+def metropolis_algorithm(number_iterations, adjacency_matrix_1):
+    i=0
+    adjacency_matrices={'{}'.format(adjacency_matrix_1):1}
+    while(i<number_iterations):
+        
+        adjacency_matrix_2=proposed_graph(adjacency_matrix_1)
+        acceptance_ratio=relativity_ratio(adjacency_matrix_1, adjacency_matrix_2)
+        if (acceptance_ratio>=1):
+            adjacency_matrix_1=adjacency_matrix_2
+            if ('{}'.format(adjacency_matrix_1)  in adjacency_matrices.keys()):
+                adjacency_matrices['{}'.format(adjacency_matrix_2)]=adjacency_matrices['{}'.format(adjacency_matrix_2)]+1
+            else:
+                adjacency_matrices['{}'.format(adjacency_matrix_1)]=1
+        else:
+            if ('{}'.format(adjacency_matrix_2) in adjacency_matrices.keys):
+                a=np.random.binomial(1, acceptance_ratio,1000)
+                if (a==0):
+                    adjacency_matrices['{}'.format(adjacency_matrix_2)]=adjacency_matrices['{}'.format(adjacency_matrix_2)]+a
+                    adjacency_matrix_1=adjacency_matrix_1
+                elif(a==1):
+                    adjacency_matrices['{}'.format(adjacency_matrix_1)]=adjacency_matrices['{}'.format(adjacency_matrix_2)]+a
+                    adjacency_matrix_1=adjacency_matrix_2
+            else:
+                a=np.random.binomial(1, acceptance_ratio,1000)
+                if (a==0):
+                    adjacency_matrices['{}'.format(adjacency_matrix_2)]=a
+                    adjacency_matrix_1=adjacency_matrix_1
+                elif(a==1):
+                    adjacency_matrices['{}'.format(adjacency_matrix_1)]=a
+                    adjacency_matrix_1=adjacency_matrix_2   
+        i=i+1
+    return adjacency_matrices
+global adj_matrices;
+adj_matrices=metropolis_algorithm(10,adjacency_matrix)
+
+#nx.draw(G_proposed)#drawing the graph                           
+#image1="proposed_graph.png"#name of the image                           
+#plt.savefig(image1)#saving the image   

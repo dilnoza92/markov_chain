@@ -64,11 +64,7 @@ The output proposed graph will  be named propsed_graph.png and saved in main dir
 
 
 .. image:: https://github.com/dilnoza92/monte_carlo/blob/master/proposed_graph.png  
-The Coverage 
--------
-Important! I could not make the travis work, it did not recognize my tests, hence I took a screenshot of my results from local computer 
 
-.. image:: https://github.com/dilnoza92/monte_carlo/blob/master/screen_shot.png 
 
 
 
